@@ -15,6 +15,21 @@ module.exports.getAllCategory = asyncHandler(async (req , res) => {
     res.status(200).json({data: categorys})
 })
 
+// ==================================
+// @desc Get category by id
+// @route /api/v1/category/:id
+// @method GET
+// @access public
+// ==================================
+module.exports.getOneCategory = asyncHandler(async (req , res) => {
+    const category  = await CategoryModel.findById(req.params.id);
+    if(!category){
+        return res.status(404).json({message: "Category not found"})
+    }
+
+    res.status(200).json({data: category})
+})
+
 
 // ==================================
 // @desc Create new category
