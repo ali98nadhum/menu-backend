@@ -17,6 +17,9 @@ app.use(cors({
     origin: '*',
   }));
 
+  // Routes
+  app.use("/api/v1/category" , require("./routes/categoryRoute"));
+
 
   // Run Server
 const port = process.env.PORT || 8000;
