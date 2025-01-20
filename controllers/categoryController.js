@@ -72,9 +72,9 @@ module.exports.createCategory = asyncHandler(async (req , res) => {
 module.exports.deleteCategory = asyncHandler(async (req , res) => {
 
     // get category from database
-    const category  = await CategoryModel.findById(req.params.category);
+    const category  = await CategoryModel.findById(req.params.id);
     if(!category){
-        res.status(404).json({message: "Not found category for this id"})
+       return res.status(404).json({message: "Not found category for this id"})
     }
 
     // delete category
