@@ -1,0 +1,11 @@
+{
+  "name": "menu-backend",
+  "version": "1.0.0",
+  "description": "this project for menu",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ali-nadhum",
+  "license": "ISC"
+}
