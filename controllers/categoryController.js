@@ -60,3 +60,25 @@ module.exports.createCategory = asyncHandler(async (req , res) => {
 
     res.status(201).json(newCategory)
 })
+
+
+
+// ==================================
+// @desc Delete category
+// @route /api/v1/category/:id
+// @method POST
+// @access Private (only admin)
+// ==================================
+module.exports.deleteCategory = asyncHandler(async (req , res) => {
+
+    // get category from database
+    const category  = await CategoryModel.findById(req.params.category);
+    if(!category){
+        res.status(404).json({message: "Not found category for this id"})
+    }
+
+    // delete category
+    await CategoryModel.findByIdAndDelete(req.params.id);
+
+    res.json({message: "Category deleted"})
+})
