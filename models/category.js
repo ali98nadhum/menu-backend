@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const join = require("join");
 
 const CategorySchema = new mongoose.Schema(
   {
