@@ -7,6 +7,7 @@ const subCategorySchema = new mongoose.Schema({
     unique: true,
     trim: true,
     minlength: [3, "category must be at least 3 characters"],
+    maxlength: [50, "category must be at most 50 characterss"],
   },
   
   price: {
