@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const {CategoryModel} = require("../models/category");
-const {VaildateCreatCategory} = require("../middlewares/categoryValidation");
+const {VaildateCreatCategory, VaildateUpdateCategory} = require("../middlewares/categoryValidation");
 
 
 
@@ -59,6 +59,36 @@ module.exports.createCategory = asyncHandler(async (req , res) => {
     })
 
     res.status(201).json(newCategory)
+})
+
+// ==================================
+// @desc Delete category
+// @route /api/v1/category/:id
+// @method POST
+// @access Private (only admin)
+// ==================================
+module.exports.updateCategoey = asyncHandler(async(req , res) => {
+    // Get category from database
+    const category  = await CategoryModel.findById(req.params.id);
+    if(!category){
+        return res.status(404).json({message: "not found category for this id"});
+    }
+
+    // validtion input data
+    const {error} = VaildateUpdateCategory(req.body);
+    if(error){
+        return res.status(400).json({ message: error.details[0].message });
+    }
+
+    // Update category in database
+    const updateCategory = await CategoryModel.findByIdAndUpdate(
+        req.params.id,
+        { title: req.body.title },
+        { new: true }
+    )
+
+    // send return
+    res.status(200).json({data: updateCategory})
 })
 
 
