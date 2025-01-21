@@ -80,6 +80,15 @@ module.exports.updateCategoey = asyncHandler(async(req , res) => {
         return res.status(400).json({ message: error.details[0].message });
     }
 
+    // Check if category title is unique
+    const existingCategory = await CategoryModel.findOne({
+        title: req.body.title,
+    });
+    if(existingCategory){
+        res.status(400).json({message: "title already exists"})
+    }
+
+
     // Update category in database
     const updateCategory = await CategoryModel.findByIdAndUpdate(
         req.params.id,
