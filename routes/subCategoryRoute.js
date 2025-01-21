@@ -1,10 +1,11 @@
-const { getSubCategorys } = require("../controllers/subcategoryController");
+const { getSubCategorys, createSubCategory } = require("../controllers/subcategoryController");
 
 const router = require("express").Router();
 
 
 router.route("/")
-.get(getSubCategorys);
+.get(getSubCategorys)
+.post(createSubCategory)
 
 
 module.exports = router;
