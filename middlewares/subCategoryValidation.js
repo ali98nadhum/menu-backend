@@ -1,6 +1,6 @@
 const Joi = require("joi");
 
-const validateSubCategory = (data) => {
+const validateCreateSubCategory = (data) => {
   const schema = Joi.object({
     title: Joi.string()
       .min(3)
@@ -27,5 +27,5 @@ const validateSubCategory = (data) => {
 };
 
 module.exports = {
-  validateSubCategory,
+  validateCreateSubCategory,
 };
