@@ -19,6 +19,24 @@ module.exports.getProducts = asyncHandler(async(req , res) => {
 
 
 // ==================================
+// @desc Get product by id
+// @route /api/v1/product/:id
+// @method GET
+// @access public
+// ==================================
+module.exports.getProduct = asyncHandler(async (req , res) => {
+    const product = await ProductModel.findById(req.params.id);
+    if(!product){
+        return res.status(404).json({message: "Not product for this id "})
+    }
+
+    res.status(200).json({data:product})
+})
+
+
+
+
+// ==================================
 // @desc Create new Subcategory
 // @route /api/v1/subcategory
 // @method POST
@@ -27,7 +45,7 @@ module.exports.getProducts = asyncHandler(async(req , res) => {
 module.exports.createProduct = asyncHandler(async (req , res) => {
 
     const {title , price , category} = req.body;
-    
+
     // validtion input data
     const {error} = validateCreateProduct(req.body);
     if(error){
