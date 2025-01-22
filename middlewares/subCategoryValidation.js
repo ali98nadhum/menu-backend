@@ -21,6 +21,15 @@ const validateCreateSubCategory = (data) => {
         "number.min": "Price must be greater than or equal to 0",
         "any.required": "Price is required",
       }),
+
+      category: Joi.string() // التحقق من أن category هو معرف (ID)
+      .required()
+      .messages({
+        "string.base": "Category must be a string",
+        "string.empty": "Category is required",
+        "any.required": "Category is required",
+      }),
+
   });
 
   return schema.validate(data, { abortEarly: false });

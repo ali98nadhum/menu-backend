@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const {ProductModel} = require("../models/product");
 const { validateCreateSubCategory } = require("../middlewares/subCategoryValidation");
+const { CategoryModel } = require("../models/category");
 
 
 
@@ -37,10 +38,17 @@ module.exports.createSubCategory = asyncHandler(async (req , res) => {
         res.status(400).json({message: "title already exists"})
     }
 
+    // Check if category exists
+    const existingCategory = await CategoryModel.findById(req.body.category);
+    if(!existingCategory){
+        return res.status(404).json({message: "category not found"})
+    }
+
     // Create Subcategory
     const newSubcategory = await ProductModel.create({
         title: req.body.title,
         price: req.body.price,
+        category: req.body.category
     })
 
     res.status(201).json(newSubcategory)
