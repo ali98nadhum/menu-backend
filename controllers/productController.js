@@ -1,7 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const {ProductModel} = require("../models/product");
-const { validateCreateProduct } = require("../middlewares/productValidation");
+const { validateCreateProduct} = require("../middlewares/productValidation");
 const { CategoryModel } = require("../models/category");
+const {checkTitle} = require("../helper/titleCheck");
 
 
 
@@ -11,7 +12,7 @@ const { CategoryModel } = require("../models/category");
 // @method GET
 // @access public
 // ==================================
-module.exports.getSubCategorys = asyncHandler(async(req , res) => {
+module.exports.getProducts = asyncHandler(async(req , res) => {
     const subcategories = await ProductModel.find();
     res.status(200).json({data: subcategories})
 })
@@ -23,7 +24,10 @@ module.exports.getSubCategorys = asyncHandler(async(req , res) => {
 // @method POST
 // @access Private (only admin)
 // ==================================
-module.exports.createSubCategory = asyncHandler(async (req , res) => {
+module.exports.createProduct = asyncHandler(async (req , res) => {
+
+    const {title , price , category} = req.body;
+    
     // validtion input data
     const {error} = validateCreateProduct(req.body);
     if(error){
@@ -31,12 +35,11 @@ module.exports.createSubCategory = asyncHandler(async (req , res) => {
     }
 
     // Check if Subcategory title is unique
-    const existingSubcategory = await ProductModel.findOne({
-        title: req.body.title,
-    });
-    if(existingSubcategory){
-        res.status(400).json({message: "title already exists"})
+    const productTitle = await checkTitle(title , ProductModel);
+    if (!productTitle.success) {
+        return res.status(400).json({ message: productTitle.message});
     }
+
 
     // Check if category exists
     const existingCategory = await CategoryModel.findById(req.body.category);
@@ -46,9 +49,9 @@ module.exports.createSubCategory = asyncHandler(async (req , res) => {
 
     // Create Subcategory
     const newSubcategory = await ProductModel.create({
-        title: req.body.title,
-        price: req.body.price,
-        category: req.body.category
+        title,
+        price,
+        category
     })
 
     res.status(201).json(newSubcategory)
