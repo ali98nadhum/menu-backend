@@ -6,16 +6,21 @@ const {checkTitle} = require("../helper/titleCheck");
 
 
 
+
+
 // ==================================
-// @desc Get all subCategory
-// @route /api/v1/subcategories
+// @desc Get all products
+// @route /api/v1/product
 // @method GET
 // @access public
 // ==================================
-module.exports.getProducts = asyncHandler(async(req , res) => {
-    const subcategories = await ProductModel.find();
-    res.status(200).json({data: subcategories})
+module.exports.getAllProducts = asyncHandler(async (req , res) => {
+    const products = await ProductModel.find();
+    res.status(200).json({data: products})
 })
+
+
+
 
 
 // ==================================
@@ -24,7 +29,7 @@ module.exports.getProducts = asyncHandler(async(req , res) => {
 // @method GET
 // @access public
 // ==================================
-module.exports.getProduct = asyncHandler(async (req , res) => {
+module.exports.getOneProduct = asyncHandler(async(req , res) => {
     const product = await ProductModel.findById(req.params.id);
     if(!product){
         return res.status(404).json({message: "Not product for this id "})
