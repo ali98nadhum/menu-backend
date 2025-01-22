@@ -1,4 +1,4 @@
-const { getSubCategorys, createSubCategory } = require("../controllers/subcategoryController");
+const { getSubCategorys, createSubCategory } = require("../controllers/productController");
 
 const router = require("express").Router();
 

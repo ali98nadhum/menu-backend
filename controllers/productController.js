@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const {SubCategoryModel} = require("../models/subcategory");
+const {ProductModel} = require("../models/product");
 const { validateCreateSubCategory } = require("../middlewares/subCategoryValidation");
 
 
@@ -11,7 +11,7 @@ const { validateCreateSubCategory } = require("../middlewares/subCategoryValidat
 // @access public
 // ==================================
 module.exports.getSubCategorys = asyncHandler(async(req , res) => {
-    const subcategories = await SubCategoryModel.find();
+    const subcategories = await ProductModel.find();
     res.status(200).json({data: subcategories})
 })
 
@@ -30,7 +30,7 @@ module.exports.createSubCategory = asyncHandler(async (req , res) => {
     }
 
     // Check if Subcategory title is unique
-    const existingSubcategory = await SubCategoryModel.findOne({
+    const existingSubcategory = await ProductModel.findOne({
         title: req.body.title,
     });
     if(existingSubcategory){
@@ -38,7 +38,7 @@ module.exports.createSubCategory = asyncHandler(async (req , res) => {
     }
 
     // Create Subcategory
-    const newSubcategory = await SubCategoryModel.create({
+    const newSubcategory = await ProductModel.create({
         title: req.body.title,
         price: req.body.price,
     })
