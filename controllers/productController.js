@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const {ProductModel} = require("../models/product");
-const { validateCreateSubCategory } = require("../middlewares/subCategoryValidation");
+const { validateCreateProduct } = require("../middlewares/productValidation");
 const { CategoryModel } = require("../models/category");
 
 
@@ -25,7 +25,7 @@ module.exports.getSubCategorys = asyncHandler(async(req , res) => {
 // ==================================
 module.exports.createSubCategory = asyncHandler(async (req , res) => {
     // validtion input data
-    const {error} = validateCreateSubCategory(req.body);
+    const {error} = validateCreateProduct(req.body);
     if(error){
         return res.status(400).json({ message: error.details[0].message });
     }
