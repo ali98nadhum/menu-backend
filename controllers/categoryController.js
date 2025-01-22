@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const {CategoryModel} = require("../models/category");
 const {VaildateCreatCategory, VaildateUpdateCategory} = require("../middlewares/categoryValidation");
+const { ProductModel } = require("../models/product");
 
 
 
@@ -27,7 +28,10 @@ module.exports.getOneCategory = asyncHandler(async (req , res) => {
         return res.status(404).json({message: "Category not found"})
     }
 
-    res.status(200).json({data: category})
+    // Get Product for category
+    const products = await ProductModel.find({ category: category._id });;
+
+    res.status(200).json({data: {...category.toObject(),products: products},});
 })
 
 
