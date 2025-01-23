@@ -1,6 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const {ProductModel} = require("../models/product");
-const { validateCreateProduct} = require("../middlewares/productValidation");
+const { validateCreateProduct, validateUpdateProduct} = require("../middlewares/productValidation");
 const { CategoryModel } = require("../models/category");
 const {checkTitle} = require("../helper/titleCheck");
 
@@ -78,6 +78,41 @@ module.exports.createProduct = asyncHandler(async (req , res) => {
     })
 
     res.status(201).json(newSubcategory)
+})
+
+
+
+// ==================================
+// @desc Update product
+// @route /api/v1/product/:id
+// @method PUT
+// @access private ( only admin )
+// ==================================
+module.exports.updateProduct = asyncHandler(async (req , res) => {
+    const {title , price , category} = req.body;
+    //Get product from database
+    // const product = await ProductModel.findById(req.params.id);
+    // if(!product){
+    //     return res.status(404).json({message: "not found product for this id"});
+    // }
+
+    // validtion input data
+    const {error} = validateUpdateProduct(req.body);
+    if(error){
+        return res.status(400).json({ message: error.details[0].message });
+    }
+
+    const updateProduct = await ProductModel.findByIdAndUpdate(
+        req.params.id , 
+        {title,price, category} ,
+        {new: true})
+
+        if (!updatedProduct) {
+            return res.status(404).json({ message: "Product not found for this id" });
+        }
+
+    res.status(200).json({data: updateProduct})
+
 })
 
 
