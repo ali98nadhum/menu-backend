@@ -1,7 +1,8 @@
 const asyncHandler = require("express-async-handler");
 const { ValidateRegesterData } = require("../middlewares/userValidationData");
 const {UserModel}  = require("../models/user");
-const bcrypt = require("bcryptjs");
+// const bcrypt = require("bcryptjs");
+const { hashPassword } = require("../helper/hashPassword");
 
 
 
@@ -24,8 +25,7 @@ module.exports.registerAdmin = asyncHandler(async(req , res) => {
     }
 
     // hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const hashedPassword = await hashPassword(req.body.password);
 
     // create new user
   const newUser = await UserModel.create({
