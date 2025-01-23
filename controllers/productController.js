@@ -79,3 +79,23 @@ module.exports.createProduct = asyncHandler(async (req , res) => {
 
     res.status(201).json(newSubcategory)
 })
+
+
+// ==================================
+// @desc Delete product
+// @route /api/v1/product/:id
+// @method DELETE
+// @access private ( only admin )
+// ==================================
+module.exports.deleteProduct = asyncHandler(async(req, res) => {
+    // get product from database
+    const product = await ProductModel.findById(req.params.id);
+    if(!product){
+        return res.status(404).json({message: "no product for this id"})
+    }
+
+    // delete peiduct from db
+    await ProductModel.findByIdAndDelete(req.params.id)
+
+    res.json({message: "product deleted"})
+})
