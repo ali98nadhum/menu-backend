@@ -1,4 +1,4 @@
-const { getAllProducts, createProduct, getOneProduct } = require("../controllers/productController");
+const { getAllProducts, createProduct, getOneProduct, deleteProduct } = require("../controllers/productController");
 
 const router = require("express").Router();
 
@@ -9,6 +9,7 @@ router.route("/")
 
 router.route("/:id")
 .get(getOneProduct)
+.delete(deleteProduct)
 
 
 module.exports = router;
