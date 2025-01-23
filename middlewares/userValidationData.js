@@ -7,7 +7,7 @@ const ValidateRegesterData = (data) => {
         .min(3)
         .max(50)
         .required()
-        .message({
+        .messages({
             "string.base": "Username must be a string",
             "string.empty": "Username is required",
             "string.min": "Username must be at least 3 characters long",
@@ -18,7 +18,7 @@ const ValidateRegesterData = (data) => {
         email: joi.string()
         .required()
         .email()
-        .message({
+        .messages({
             "string.email": "Email must be a valid email address",
             "string.base": "Email must be a string",
             "string.empty": "Email is required",
@@ -29,7 +29,7 @@ const ValidateRegesterData = (data) => {
         .required()
         .min(8)
         .pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'))
-        .message({
+        .messages({
             "string.base": "Password must be a string",
             "string.empty": "Password is required",
             "string.min": "Password must be at least 8 characters long",
