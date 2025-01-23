@@ -42,8 +42,8 @@ module.exports.getOneProduct = asyncHandler(async(req , res) => {
 
 
 // ==================================
-// @desc Create new Subcategory
-// @route /api/v1/subcategory
+// @desc Create new product
+// @route /api/v1/product
 // @method POST
 // @access Private (only admin)
 // ==================================
@@ -57,7 +57,7 @@ module.exports.createProduct = asyncHandler(async (req , res) => {
         return res.status(400).json({ message: error.details[0].message });
     }
 
-    // Check if Subcategory title is unique
+    // Check if product title is unique
     const productTitle = await checkTitle(title , ProductModel);
     if (!productTitle.success) {
         return res.status(400).json({ message: productTitle.message});
@@ -89,12 +89,12 @@ module.exports.createProduct = asyncHandler(async (req , res) => {
 // @access private ( only admin )
 // ==================================
 module.exports.updateProduct = asyncHandler(async (req , res) => {
-    const {title , price , category} = req.body;
+    
     //Get product from database
-    // const product = await ProductModel.findById(req.params.id);
-    // if(!product){
-    //     return res.status(404).json({message: "not found product for this id"});
-    // }
+    const product = await ProductModel.findById(req.params.id);
+    if(!product){
+        return res.status(404).json({message: "not found product for this id"});
+    }
 
     // validtion input data
     const {error} = validateUpdateProduct(req.body);
@@ -102,16 +102,30 @@ module.exports.updateProduct = asyncHandler(async (req , res) => {
         return res.status(400).json({ message: error.details[0].message });
     }
 
-    const updateProduct = await ProductModel.findByIdAndUpdate(
-        req.params.id , 
-        {title,price, category} ,
-        {new: true})
+    const updateData = {};
+    if (req.body.title !== undefined) updateData.title = req.body.title;
+    if (req.body.price !== undefined) updateData.price = req.body.price;
+    if (req.body.category !== undefined) updateData.category = req.body.category;
 
-        if (!updatedProduct) {
-            return res.status(404).json({ message: "Product not found for this id" });
-        }
+    // Check if product title is unique
+    const productTitle = await checkTitle(req.body.title , ProductModel);
+    if (!productTitle.success) {
+        return res.status(400).json({ message: productTitle.message});
+    }
 
-    res.status(200).json({data: updateProduct})
+    // Update the product in the database
+    const updatedProduct = await ProductModel.findByIdAndUpdate(
+        req.params.id,
+        { $set: updateData },
+        { new: true } 
+    );
+
+    if (!updatedProduct) {
+        return res.status(404).json({ message: "Product not found for this id" });
+    }
+
+    // Send the updated product as a response
+    res.status(200).json(updatedProduct);
 
 })
 
