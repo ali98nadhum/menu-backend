@@ -11,3 +11,7 @@ const { UserModel } = require("../models/user");
 // @method GET
 // @access private ( only admin )
 // ==================================
+module.exports.getAllUsers = asyncHandler(async(req , res) => {
+    const users = await UserModel.find();
+    res.status(200).json({data: users})
+})
