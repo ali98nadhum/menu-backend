@@ -62,6 +62,7 @@ module.exports.loginAdmin = asyncHandler(async(req , res) => {
   if(!user){
     return res.status(400).json({message: "Invalid email or password"})
   }
+  
 
   // Check if password matches
   const isPasswordMatch = await bcrypt.compare(req.body.password , user.password);
