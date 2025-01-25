@@ -32,3 +32,21 @@ module.exports.getUserById = asyncHandler(async (req , res) => {
 
     res.status(200).json({data: user});
 })
+
+
+
+// ==================================
+// @desc Delete user
+// @route /api/v1/users/:id
+// @method DELETE
+// @access private ( only admin )
+// ==================================
+module.exports.deleteUser = asyncHandler( async( req , res) => {
+    const user = await UserModel.findByIdAndDelete(req.params.id);
+    if(!user){
+        return res.status(404).json({message: "Not found user for this id"})
+    }
+
+    res.status(200).json({message: "User deleted"})
+})
+
