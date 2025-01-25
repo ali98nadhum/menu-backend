@@ -1,15 +1,14 @@
 const { getAllCategory, createCategory, getOneCategory, deleteCategory, updateCategoey } = require("../controllers/categoryController");
-
 const router = require("express").Router();
-
+const { verifyToken } = require("../middlewares/verifyToken");
 
 router.route("/")
 .get(getAllCategory)
-.post(createCategory)
+.post(verifyToken , createCategory)
 
 router.route("/:id")
 .get(getOneCategory)
-.delete(deleteCategory)
-.put(updateCategoey)
+.delete(verifyToken , deleteCategory)
+.put(verifyToken , updateCategoey)
 
 module.exports = router;
