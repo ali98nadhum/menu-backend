@@ -104,6 +104,7 @@ module.exports.updateCategoey = asyncHandler(async(req , res) => {
         res.status(400).json({message: "title already exists"})
     }
 
+    // upload new image
     let image = category.image;
     if (req.file) {
         const result = await cloudinaryUploadImage(req.file.buffer, req.file.originalname);
