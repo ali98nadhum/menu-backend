@@ -3,6 +3,8 @@ const { ValidateRegesterData, ValidateLoginData } = require("../middlewares/user
 const {UserModel}  = require("../models/user");
 const bcrypt = require("bcryptjs");
 const { hashPassword } = require("../helper/hashPassword");
+const jwt = require('jsonwebtoken');
+
 
 
 
@@ -34,7 +36,14 @@ module.exports.registerAdmin = asyncHandler(async(req , res) => {
     password: hashedPassword
   })
 
-    res.status(201).json({message: "User registered successfully"});
+
+  const token = jwt.sign(
+    { userId: newUser._id, email: newUser.email },
+    process.env.JWT_SECRET, // يجب أن يكون لديك متغير بيئة JWT_SECRET
+    { expiresIn: '1h' } // يمكنك تعديل مدة صلاحية التوكن
+);
+
+    res.status(201).json({message: "User registered successfully" , token: token});
  
 })
 
