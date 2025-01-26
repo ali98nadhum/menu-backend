@@ -10,6 +10,6 @@ router.route("/")
 router.route("/:id")
 .get(getOneCategory)
 .delete(verifyToken , deleteCategory)
-.put(verifyToken , updateCategoey)
+.put(verifyToken , photoUpload.single("image") , updateCategoey)
 
 module.exports = router;

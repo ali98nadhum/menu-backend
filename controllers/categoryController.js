@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const {CategoryModel} = require("../models/category");
 const {VaildateCreatCategory, VaildateUpdateCategory} = require("../middlewares/categoryValidation");
 const { ProductModel } = require("../models/product");
-const { cloudinaryUploadImage } = require("../utils/cloudinary");
+const { cloudinaryUploadImage, cloudinaryDeleteImage } = require("../utils/cloudinary");
 
 
 
@@ -104,11 +104,25 @@ module.exports.updateCategoey = asyncHandler(async(req , res) => {
         res.status(400).json({message: "title already exists"})
     }
 
+    let image = category.image;
+    if (req.file) {
+        const result = await cloudinaryUploadImage(req.file.buffer, req.file.originalname);
+        image = {
+            url: result.secure_url,
+            publicId: result.public_id,
+        };
+
+        // Delete old image
+        if (category.image.publicId) {
+            await cloudinaryDeleteImage(category.image.publicId);
+        }
+    }
+
 
     // Update category in database
     const updateCategory = await CategoryModel.findByIdAndUpdate(
         req.params.id,
-        { title: req.body.title },
+        { title: req.body.title , image: image },
         { new: true }
     )
 
