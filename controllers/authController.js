@@ -79,5 +79,12 @@ module.exports.loginAdmin = asyncHandler(async(req , res) => {
     return res.status(400).json({message: "Invalid email or password"})
   }
 
-  res.status(200).json({message:`login_success hi ${user.username}`})
+  const token = jwt.sign(
+    { userId: user._id, email: user.email },
+    process.env.JWT_SECRET, // يجب أن يكون لديك متغير بيئة JWT_SECRET
+    { expiresIn: '1h' } // يمكنك تعديل مدة صلاحية التوكن
+);
+
+
+  res.status(200).json({message:`login_success hi ${user.username}` , token:token});
 })
