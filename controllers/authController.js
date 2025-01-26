@@ -3,7 +3,6 @@ const { ValidateRegesterData, ValidateLoginData } = require("../middlewares/user
 const {UserModel}  = require("../models/user");
 const bcrypt = require("bcryptjs");
 const { hashPassword } = require("../helper/hashPassword");
-const jwt = require('jsonwebtoken');
 
 
 
