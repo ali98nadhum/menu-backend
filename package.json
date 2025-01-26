@@ -4,7 +4,7 @@
   "description": "this project for menu",
   "main": "index.js",
   "scripts": {
-     "dev": "nodemon app",
+    "dev": "nodemon app",
     "start": "node index.js"
   },
   "author": "ali-nadhum",
@@ -21,6 +21,7 @@
     "mongodb": "^6.12.0",
     "mongoose": "^8.9.5",
     "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^6.9.16"
   },
   "devDependencies": {
