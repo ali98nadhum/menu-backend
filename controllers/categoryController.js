@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const {CategoryModel} = require("../models/category");
 const {VaildateCreatCategory, VaildateUpdateCategory} = require("../middlewares/categoryValidation");
 const { ProductModel } = require("../models/product");
+const { cloudinaryUploadImage } = require("../utils/cloudinary");
 
 
 
@@ -43,6 +44,11 @@ module.exports.getOneCategory = asyncHandler(async (req , res) => {
 // ==================================
 module.exports.createCategory = asyncHandler(async (req , res) => {
 
+    // Validtion if not found image
+    if(!req.file){
+        return res.status(400).json({message: "image is required"})
+    }
+
     // validtion input data
     const {error} = VaildateCreatCategory(req.body);
     if(error){
@@ -57,9 +63,15 @@ module.exports.createCategory = asyncHandler(async (req , res) => {
         res.status(400).json({message: "title already exists"})
     }
 
+    const result = await cloudinaryUploadImage(req.file.buffer , req.file.originalname)
+
     // create new category
     const newCategory = await CategoryModel.create({
         title: req.body.title,
+        image: {
+            url: result.secure_url,
+            publicId: result.public_id,
+          },
     })
 
     res.status(201).json(newCategory)
