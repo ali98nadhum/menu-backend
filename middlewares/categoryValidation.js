@@ -2,6 +2,7 @@ const joi = require("joi");
 
 
 
+
 function VaildateCreatCategory(obj){
     const schema = joi.object({
         title: joi.string().trim().required().min(3).max(50).messages({

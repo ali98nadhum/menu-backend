@@ -7,6 +7,7 @@ const { generateToken } = require("../utils/generateToken");
 
 
 
+
 // ==================================
 // @desc Register admin
 // @route /api/v1/auth/register
