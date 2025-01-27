@@ -70,14 +70,14 @@ module.exports.createProduct = asyncHandler(async (req , res) => {
         return res.status(404).json({message: "category not found"})
     }
 
-    // Create Subcategory
-    const newSubcategory = await ProductModel.create({
+    // Create new product
+    const newProduct = await ProductModel.create({
         title,
         price,
         category
     })
 
-    res.status(201).json(newSubcategory)
+    res.status(201).json(newProduct)
 })
 
 
