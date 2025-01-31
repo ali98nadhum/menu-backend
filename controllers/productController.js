@@ -58,10 +58,10 @@ module.exports.createProduct = asyncHandler(async (req , res) => {
     }
 
     // Check if product title is unique
-    const productTitle = await checkTitle(title , ProductModel);
-    if (!productTitle.success) {
-        return res.status(400).json({ message: productTitle.message});
-    }
+    // const productTitle = await checkTitle(title , ProductModel);
+    // if (!productTitle.success) {
+    //     return res.status(400).json({ message: productTitle.message});
+    // }
 
 
     // Check if category exists
@@ -108,10 +108,10 @@ module.exports.updateProduct = asyncHandler(async (req , res) => {
     if (req.body.category !== undefined) updateData.category = req.body.category;
 
     // Check if product title is unique
-    const productTitle = await checkTitle(req.body.title , ProductModel);
-    if (!productTitle.success) {
-        return res.status(400).json({ message: productTitle.message});
-    }
+    // const productTitle = await checkTitle(req.body.title , ProductModel);
+    // if (!productTitle.success) {
+    //     return res.status(400).json({ message: productTitle.message});
+    // }
 
     // Update the product in the database
     const updatedProduct = await ProductModel.findByIdAndUpdate(
