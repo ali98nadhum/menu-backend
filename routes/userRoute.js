@@ -6,6 +6,8 @@ const { verifyToken } = require("../middlewares/verifyToken");
 router.route("/")
 .get( verifyToken, getAllUsers)
 
+
+
 router.route("/:id")
 .get(verifyToken , getUserById)
 .delete(verifyToken , deleteUser)
